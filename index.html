@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<style>
+		body {
+			display: flex;
+			justify-content: center;
+			height: 100vh;
+			align-items: center;
+			font-family: monospace;
+			color: #adc6d9;
+		}
+
+		.container {
+			width: 400px;
+			height: 600px;
+			position: relative;
+		}
+
+		.bg {
+			width: 100%;
+			height: 100%;
+			transition: .5s ease;
+			/* CSS background extracted from https://cssgradient.io/gradient-backgrounds/ */
+			background: linear-gradient(135deg, #312c00 0.000%, #312c00 14.286%, #332e1e calc(14.286% + 1px), #332e1e 28.571%, #323149 calc(28.571% + 1px), #323149 42.857%, #2c3377 calc(42.857% + 1px), #2c3377 57.143%, #2436a2 calc(57.143% + 1px), #2436a2 71.429%, #1a39c0 calc(71.429% + 1px), #1a39c0 85.714%, #113ccc calc(85.714% + 1px) 100.000%);
+			border-radius: 25px;
+			box-shadow: 0 15px 15px #666;
+		}
+
+		.action {
+			width: 200px;
+			height: 300px;
+			position: absolute;
+			z-index: 100;
+		}
+
+		.top-left,
+		.top-right {
+			top: 0;
+		}
+
+		.bottom-left,
+		.bottom-right {
+			top: 300px;
+		}
+
+		.top-left,
+		.bottom-left {
+			left: 0;
+		}
+
+		.top-right,
+		.bottom-right {
+			right: 0;
+		}
+
+		.top-left:hover ~ .bg {
+			transform: perspective(600px) rotateY(-15deg) rotateX(15deg);
+		}
+
+		.top-right:hover ~ .bg {
+			transform: perspective(600px) rotateY(15deg) rotateX(15deg);
+		}
+
+		.bottom-left:hover ~ .bg {
+			transform: perspective(600px) rotateY(-15deg) rotateX(-15deg);
+		}
+
+		.bottom-right:hover ~ .bg {
+			transform: perspective(600px) rotateY(15deg) rotateX(-15deg);
+		}
+
+		.top-left:hover ~ .bg,
+		.top-right:hover ~ .bg {
+			border-bottom: #333 solid 3px;
+		}
+
+		.bottom-left:hover ~ .bg,
+		.bottom-right:hover ~ .bg {
+			border-top: #999 solid 3px;
+		}
+
+		.top-left:hover ~ .bg,
+		.bottom-left:hover ~ .bg {
+			border-right: #666 solid 3px;
+		}
+
+		.top-right:hover ~ .bg,
+		.bottom-right:hover ~ .bg {
+			border-left: #666 solid 3px;
+		}
+
+		.top-left:hover ~ .bg {
+			box-shadow: 40px 40px 15px #999;
+		}
+
+		.top-right:hover ~ .bg {
+			box-shadow: -40px 40px 15px #999;
+		}
+
+		.bg::before {
+			content: "";
+			width: 100%;
+			height: 100%;
+		}
+
+		.top-left:hover ~ .bg::before,
+		.top-right:hover ~ .bg::before,
+		.bottom-left:hover ~ .bg::before,
+		.bottom-right:hover ~ .bg::before {
+			position: absolute;
+			z-index: 100;
+			background-size: 200%;
+			animation: gradient 1s;
+			animation-fill-mode: forwards;
+			border-radius: 20px;
+		}
+
+		.top-left:hover ~ .bg::before {
+			background: linear-gradient(135deg, rgba(255, 255, 255, .8), rgba(255, 255, 255, 0));
+		}
+
+		.top-right:hover ~ .bg::before {
+			background: linear-gradient(45deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .5));
+		}
+
+		.bottom-left:hover ~ .bg::before {
+			background: linear-gradient(45deg, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
+		}
+
+		.bottom-right:hover ~ .bg::before {
+			background: linear-gradient(135deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, .5));
+		}
+
+		.top-left:hover ~ .bg .bg-content::after,
+		.top-right:hover ~ .bg .bg-content::after {
+			filter: brightness(0.5);
+		}
+
+		.top-left:hover ~ .bg .bg-content::after {
+			left: 160px;
+			transform: rotate(-15deg);
+		}
+
+		.top-right:hover ~ .bg .bg-content::after {
+			left: 163px;
+			transform: rotate(15deg);
+		}
+
+		.top-left:hover ~ .bg .hole,
+		.top-right:hover ~ .bg .hole {
+			border-top: #666 solid 4px;
+		}
+
+		.bottom-left:hover ~ .bg .hole,
+		.bottom-right:hover ~ .bg .hole {
+			border-bottom: #666 solid 1px;
+		}
+
+		.top-left:hover ~ .bg .hole,
+		.bottom-left:hover ~ .bg .hole {
+			border-left: #666 solid 4px;
+		}
+
+		.top-right:hover ~ .bg .hole,
+		.bottom-right:hover ~ .bg .hole {
+			border-right: #666 solid 4px;
+		}
+
+		@keyframes gradient {
+			0% {
+				background-position: 0% 0%;
+			}
+			100% {
+				background-position: 100% 50%;
+			}
+		}
+
+		img {
+			border-radius: 20px 45px;
+			width: 250px;
+			height: 250px;
+			object-fit: cover;
+			border-radius: 50%;
+			border: #adc6d9 solid 5px;
+			box-shadow:
+				0 -1px 0 #fff,
+				0 -2px 3px #fff,
+				0 2px 1px #000;
+			position: absolute;
+			z-index: 100;
+			top: 90px;
+			opacity: .8;
+		}
+
+		.bg .bg-content {
+			padding: 30px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-shadow: 0 .5px 0 #ffffff, 0 -1px 0 #1b1948;
+		}
+
+		.bg-content::after,
+		.bg::after {
+			content: "";
+			display: block;
+			width: 80px;
+			height: 500px;
+			/* CSS pattern extracted from https://projects.verou.me/css3patterns */
+			/* https://projects.verou.me/css3patterns/#carbon */
+			background:
+				linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
+				linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px,
+				linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px,
+				linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
+				linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
+				linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
+			background-color: #131313;
+			background-size: 20px 20px;
+			position: absolute;
+		}
+
+		.bg-content::after {
+			z-index: 90;
+			transition: .5s ease;
+			top: -470px;
+			transform-origin: bottom;
+		}
+
+		.name {
+			font-size: 3rem;
+			line-height: 1;
+			border-bottom: #000 solid thin;
+			padding-bottom: 10px;
+			box-shadow: 0 1px 0px #6182f3;
+			width: 100%;
+		}
+
+		.position {
+			margin-top: 15px;
+			font-size: .9rem;
+			width: 100%;
+		}
+
+		.bg::after {
+			z-index: 100;
+			top: -460px;
+			left: 160px;
+		}
+
+		.hole {
+			width: 100px;
+			height: 30px;
+			border-radius: 20px;
+			background-color: #fff;
+			margin-bottom: 370px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="action top-left"></div>
+		<div class="action top-right"></div>
+		<div class="action bottom-left"></div>
+		<div class="action bottom-right"></div>
+		<div class="bg">
+			<div class="bg-content">
+				<div class="hole"></div>
+				<img src="me.jpg" alt="">
+				<div class="name">Adriel Zarate</div>
+				<div class="position">Senior Frontend Developer</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
